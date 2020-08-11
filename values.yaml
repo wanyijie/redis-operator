@@ -1,0 +1,276 @@
+global:
+    redis: {}
+  
+  image:
+    registry: docker.io
+    repository: bitnami/redis
+    tag: 6.0.6-debian-10-r10
+    pullPolicy: IfNotPresent
+  
+  
+  
+  cluster:
+    enabled: true
+    slaveCount: 2
+  
+  sentinel:
+    enabled: false
+    usePassword: true
+    image:
+      registry: docker.io
+      repository: bitnami/redis-sentinel
+      tag: 6.0.6-debian-10-r11
+      pullPolicy: IfNotPresent
+    masterSet: mymaster
+    initialCheckTimeout: 5
+    quorum: 2
+    downAfterMilliseconds: 60000
+    failoverTimeout: 18000
+    parallelSyncs: 1
+    port: 26379
+    configmap:
+    staticID: false
+    livenessProbe:
+      enabled: true
+      initialDelaySeconds: 5
+      periodSeconds: 5
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 5
+    readinessProbe:
+      enabled: true
+      initialDelaySeconds: 5
+      periodSeconds: 5
+      timeoutSeconds: 1
+      successThreshold: 1
+      failureThreshold: 5
+    customLivenessProbe: {}
+    customReadinessProbe: {}
+    service:
+      type: ClusterIP
+      sentinelPort: 26379
+      redisPort: 6379
+  
+  
+      annotations: {}
+      labels: {}
+      loadBalancerIP:
+  
+  clusterDomain: cluster.local
+  
+  networkPolicy:
+    enabled: false
+  
+  
+    ingressNSMatchLabels: {}
+    ingressNSPodMatchLabels: {}
+  
+  serviceAccount:
+    create: false
+    name:
+  
+  rbac:
+    create: false
+  
+    role:
+      rules: []
+  
+  securityContext:
+    enabled: true
+    fsGroup: 1001
+    runAsUser: 1001
+  
+  usePassword: true
+  password: ""
+  
+  usePasswordFile: false
+  
+  persistence:
+    existingClaim:
+  
+  redisPort: 6379
+  
+  tls:
+    enabled: false
+    authClients: true
+    certificatesSecret:
+    certFilename:
+    certKeyFilename:
+    certCAFilename:
+  
+  master:
+    command: "/run.sh"
+    configmap:
+    extraFlags: []
+    disableCommands:
+      - FLUSHDB
+      - FLUSHALL
+  
+    podLabels: {}
+    podAnnotations: {}
+  
+  
+    livenessProbe:
+      enabled: true
+      initialDelaySeconds: 5
+      periodSeconds: 5
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 5
+    readinessProbe:
+      enabled: true
+      initialDelaySeconds: 5
+      periodSeconds: 5
+      timeoutSeconds: 1
+      successThreshold: 1
+      failureThreshold: 5
+  
+    customLivenessProbe: {}
+    customReadinessProbe: {}
+  
+    affinity: {}
+  
+    service:
+      type: ClusterIP
+      port: 6379
+  
+  
+      annotations: {}
+      labels: {}
+      loadBalancerIP:
+  
+    persistence:
+      enabled: true
+      path: /data
+      subPath: ""
+      accessModes:
+        - ReadWriteOnce
+      size: 8Gi
+      matchLabels: {}
+      matchExpressions: {}
+  
+    statefulset:
+      updateStrategy: RollingUpdate
+  
+    priorityClassName: {}
+  
+  slave:
+    service:
+      type: ClusterIP
+      port: 6379
+  
+      annotations: {}
+      labels: {}
+      loadBalancerIP:
+  
+    port: 6379
+    command: "/run.sh"
+    configmap:
+    extraFlags: []
+    disableCommands:
+      - FLUSHDB
+      - FLUSHALL
+  
+    affinity: {}
+  
+    spreadConstraints: {}
+  
+    livenessProbe:
+      enabled: true
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      timeoutSeconds: 5
+      successThreshold: 1
+      failureThreshold: 5
+    readinessProbe:
+      enabled: true
+      initialDelaySeconds: 5
+      periodSeconds: 10
+      timeoutSeconds: 10
+      successThreshold: 1
+      failureThreshold: 5
+  
+    customLivenessProbe: {}
+    customReadinessProbe: {}
+  
+  
+  
+  
+    podLabels: {}
+    podAnnotations: {}
+  
+  
+    persistence:
+      enabled: true
+      path: /data
+      subPath: ""
+      accessModes:
+        - ReadWriteOnce
+      size: 8Gi
+      matchLabels: {}
+      matchExpressions: {}
+  
+    statefulset:
+      updateStrategy: RollingUpdate
+  
+  metrics:
+    enabled: false
+  
+    image:
+      registry: docker.io
+      repository: bitnami/redis-exporter
+      tag: 1.9.0-debian-10-r20
+      pullPolicy: IfNotPresent
+  
+  
+  
+    podAnnotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/port: "9121"
+  
+    serviceMonitor:
+      enabled: false
+      selector:
+        prometheus: kube-prometheus
+  
+    prometheusRule:
+      enabled: false
+      additionalLabels: {}
+      namespace: ""
+      rules: []
+  
+    service:
+      type: ClusterIP
+      annotations: {}
+      labels: {}
+  
+  volumePermissions:
+    enabled: false
+    image:
+      registry: docker.io
+      repository: bitnami/minideb
+      tag: buster
+      pullPolicy: Always
+    resources: {}
+  
+  configmap: |-
+    appendonly yes
+    save ""
+  
+  sysctlImage:
+    enabled: false
+    command: []
+    registry: docker.io
+    repository: bitnami/minideb
+    tag: buster
+    pullPolicy: Always
+    mountHostSys: false
+    resources: {}
+  
+  podSecurityPolicy:
+    create: false
+  
+  podDisruptionBudget:
+    enabled: false
+    minAvailable: 1
+  

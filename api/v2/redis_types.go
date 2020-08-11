@@ -25,12 +25,20 @@ import (
 
 // RedisSpec defines the desired state of Redis
 type RedisSpec struct {
+	// Cluster  Cluster
+	// Image    string `json:"image,omitempty"`
+	// Password string `json:"password,omitempty"`
 	// INSERT ADDITIONAL SPEC FIELDS - desired state of cluster
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// Foo is an example field of Redis. Edit Redis_types.go to remove/update
 	Size int32 `json:"size,omitempty"`
 }
+
+// type Cluster struct {
+// 	Enabled    bool  `json:"enabled,omitempty"`
+// 	SlaveCount int32 `json:"slaveCount,omitempty"`
+// }
 
 // RedisStatus defines the observed state of Redis
 type RedisStatus struct {
