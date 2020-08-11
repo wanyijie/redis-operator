@@ -72,6 +72,7 @@ func (r *RedisReconciler) SetupWithManager(mgr ctrl.Manager) error {
 func (r *RedisReconciler) deploymentForRedis(app *appsv2.Redis) *appsv1.Deployment {
 	ls := labelsForRedis("redis")
 	replicas := app.Spec.Size
+	fmt.Println("size:", replicas)
 
 	dep := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
