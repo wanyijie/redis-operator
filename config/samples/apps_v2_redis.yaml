@@ -2,7 +2,7 @@ apiVersion: apps.wise2c.com/v2
 kind: Redis
 metadata:
   name: redis-sample
+  namespace: redis-demo
 spec:
   # Add fields here
-  name: wise
-  namespace: redis-demo
+  size: 1

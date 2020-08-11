@@ -49,10 +49,13 @@ func (r *RedisReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 
 	dep := r.deploymentForRedis(redis)
 	fmt.Println("create deployment")
-	r.Client.Create(context.TODO(), dep)
+	err := r.Client.Create(context.TODO(), dep)
+	if err != nil {
+		fmt.Println(err)
+		return ctrl.Result{}, err
+	}
 
 	//
-
 	return ctrl.Result{}, nil
 }
 
@@ -64,7 +67,7 @@ func (r *RedisReconciler) SetupWithManager(mgr ctrl.Manager) error {
 
 func (r *RedisReconciler) deploymentForRedis(app *appsv2.Redis) *appsv1.Deployment {
 	ls := labelsForRedis("redis")
-	var replicas int32 = 1
+	replicas := app.Spec.Size
 
 	dep := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{

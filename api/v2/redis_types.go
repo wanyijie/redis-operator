@@ -29,8 +29,7 @@ type RedisSpec struct {
 	// Important: Run "make" to regenerate code after modifying this file
 
 	// Foo is an example field of Redis. Edit Redis_types.go to remove/update
-	Name      string `json:"name,omitempty"`
-	Namespace string `json:"namespace,omitempty"`
+	Size int32 `json:"size,omitempty"`
 }
 
 // RedisStatus defines the observed state of Redis
