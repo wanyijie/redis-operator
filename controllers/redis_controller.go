@@ -42,16 +42,20 @@ type RedisReconciler struct {
 // +kubebuilder:rbac:groups=apps.wise2c.com,resources=redis/status,verbs=get;update;patch
 
 func (r *RedisReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
-	_ = context.Background()
-	_ = r.Log.WithValues("redis", req.NamespacedName)
+	ctx := context.Background()
+	log := r.Log.WithValues("redis", req.NamespacedName)
 
 	redis := &appsv2.Redis{}
+	if err := r.Get(ctx, req.NamespacedName, redis); err != nil {
+		log.Error(err, "unable to fetch redis")
+		return ctrl.Result{}, client.IgnoreNotFound(err)
+	}
 
 	dep := r.deploymentForRedis(redis)
 	fmt.Println("create deployment")
 	err := r.Client.Create(context.TODO(), dep)
 	if err != nil {
-		fmt.Println(err)
+		log.Error(err, "create deployment failed")
 		return ctrl.Result{}, err
 	}
 
