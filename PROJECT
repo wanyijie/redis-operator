@@ -1,0 +1,7 @@
+domain: wise2c.com
+repo: github.com/wangyijie/redis-operator
+resources:
+- group: apps
+  kind: Redis
+  version: v2
+version: "2"
