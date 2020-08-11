@@ -71,8 +71,8 @@ func (r *RedisReconciler) deploymentForRedis(app *appsv2.Redis) *appsv1.Deployme
 
 	dep := &appsv1.Deployment{
 		ObjectMeta: metav1.ObjectMeta{
-			Name:      app.Name,
-			Namespace: app.Namespace,
+			Name:      app.ObjectMeta.Name,
+			Namespace: app.ObjectMeta.Namespace,
 		},
 		Spec: appsv1.DeploymentSpec{
 			Replicas: &replicas,
