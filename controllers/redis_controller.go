@@ -26,6 +26,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 
 	appsv2 "github.com/wangyijie/redis-operator/api/v2"
+                 tools "github.com/wangyijie/redis-operator/tools"
 )
 
 // RedisReconciler reconciles a Redis object
