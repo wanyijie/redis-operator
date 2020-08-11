@@ -48,7 +48,7 @@ func (r *RedisReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	dep := r.deploymentForRedis(&redis)
+	dep := tools.deploymentForRedis(&redis)
 	fmt.Println("create deployment:", dep)
 	err := r.Client.Create(context.TODO(), dep)
 	if err != nil {

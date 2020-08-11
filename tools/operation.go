@@ -1,4 +1,4 @@
-package controllers
+package tools
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-func (r *RedisReconciler) deploymentForRedis(app *appsv2.Redis) *appsv1.Deployment {
+func deploymentForRedis(app *appsv2.Redis) *appsv1.Deployment {
 	ls := labelsForRedis("redis")
 	replicas := app.Spec.Size
 	fmt.Println("size:", replicas)
