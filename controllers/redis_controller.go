@@ -52,7 +52,7 @@ func (r *RedisReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	}
 
 	dep := r.deploymentForRedis(&redis)
-	fmt.Println("create deployment")
+	fmt.Println("create deployment:", dep)
 	err := r.Client.Create(context.TODO(), dep)
 	if err != nil {
 		log.Error(err, "create deployment failed")
