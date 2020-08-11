@@ -45,13 +45,13 @@ func (r *RedisReconciler) Reconcile(req ctrl.Request) (ctrl.Result, error) {
 	ctx := context.Background()
 	log := r.Log.WithValues("redis", req.NamespacedName)
 
-	redis := &appsv2.Redis{}
-	if err := r.Get(ctx, req.NamespacedName, redis); err != nil {
+	var redis appsv2.Redis
+	if err := r.Get(ctx, req.NamespacedName, &redis); err != nil {
 		log.Error(err, "unable to fetch redis")
 		return ctrl.Result{}, client.IgnoreNotFound(err)
 	}
 
-	dep := r.deploymentForRedis(redis)
+	dep := r.deploymentForRedis(&redis)
 	fmt.Println("create deployment")
 	err := r.Client.Create(context.TODO(), dep)
 	if err != nil {
